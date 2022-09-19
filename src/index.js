@@ -1,15 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import Home from './pages/Home';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import Home from "./pages/Home";
+import reportWebVitals from "./reportWebVitals";
 import TollList from "./pages/TollList";
 
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +18,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />
