@@ -4,30 +4,7 @@ import "./../App.css";
 import filterIcon from "./../assets/filter.png";
 import searchIcon from "./../assets/search.png";
 import VehiclePopUP from "./../components/vehiclePopup";
-
-// const data = [
-//   {
-//     vehicleType: "Anom",
-//     vehicleNumber: 19,
-//     date: "123",
-//     tollname: "test",
-//     tariff: 1,
-//   },
-//   {
-//     vehicleType: "A",
-//     vehicleNumber: 190,
-//     date: "12123",
-//     tollname: "te213st",
-//     tariff: 12,
-//   },
-//   {
-//     vehicleType: "sdg",
-//     vehicleNumber: 20,
-//     date: "000",
-//     tollname: "test2",
-//     tariff: 1,
-//   },
-// ];
+import TollPopUp from "./../components/tollPopup";
 
 function filterHandler() {
   console.log("filter working");
@@ -40,9 +17,6 @@ function searchHandler(event) {
   console.log(event.target.value);
 }
 
-function addNewToll() {
-  console.log("adding new toll");
-}
 function viewAllTolls() {
   console.log("view all tolls");
 }
@@ -50,15 +24,22 @@ function viewAllTolls() {
 function App() {
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
-
   const [seenVehiclePopUp, setVehiclePopUp] = useState(false);
+  const [seenTollPopUp, setTollPopUp] = useState(false);
+
   useEffect(() => {
     const allEntries = JSON.parse(localStorage.getItem("vehiclesInfo"));
     setData(allEntries);
   }, []);
+
   function toggleVehiclePop() {
     setVehiclePopUp(!seenVehiclePopUp);
   }
+
+  function toggleTollPop() {
+    setTollPopUp(!seenTollPopUp);
+  }
+
   return (
     <div>
       <header className="App-header">
@@ -88,7 +69,14 @@ function App() {
                 <VehiclePopUP toggle={toggleVehiclePop} />
               ) : null}
             </div>
-            <button onClick={addNewToll}>Add new toll</button>
+
+            <div>
+              <div onClick={toggleTollPop}>
+                <button>Add new toll</button>
+              </div>
+              {seenTollPopUp ? <TollPopUp toggle={toggleTollPop} /> : null}
+            </div>
+
             <button onClick={viewAllTolls}>View all tolls</button>
           </div>
         </div>
