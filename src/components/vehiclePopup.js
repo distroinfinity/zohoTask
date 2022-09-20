@@ -52,6 +52,10 @@ export default function VehiclePopUP(props) {
   }, [vehicleType, tollName]);
 
   const submitButton = () => {
+    if (!tollName || !vehicleType || !vehicleNumber | !tariff) {
+      alert("One of the required field not provided");
+      return;
+    }
     const newEntry = {
       tollName: tollName,
       vehicleType: vehicleType,
@@ -93,7 +97,7 @@ export default function VehiclePopUP(props) {
               justifyContent: "space-between",
             }}
           >
-            <label>Select toll name*</label>
+            <label>Select toll name</label>
 
             <select
               value={tollName || "select"}
@@ -107,7 +111,7 @@ export default function VehiclePopUP(props) {
             </select>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <label>Select vehicle type*</label>
+            <label>Select vehicle type</label>
 
             <select
               value={vehicleType}
@@ -124,7 +128,7 @@ export default function VehiclePopUP(props) {
           </div>
 
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <label>Vehicle Number*</label>
+            <label>Vehicle Number</label>
 
             <input
               type="text"
@@ -134,7 +138,7 @@ export default function VehiclePopUP(props) {
             />
           </div>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <label>Tariff*</label>
+            <label>Tariff</label>
 
             <input
               type="text"

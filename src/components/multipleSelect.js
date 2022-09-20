@@ -41,7 +41,23 @@ export default function MultipleSelect(props) {
   function handlePrice(ev) {
     setPrices({ ...prices, [ev.target.name]: ev.target.value });
   }
+  console.log("options", Object.keys(chosenOptions).length);
   const submitButton = () => {
+    if (
+      !tollname ||
+      !prices["select1single"] ||
+      !prices["select2single"] ||
+      !prices["select3single"] ||
+      !prices["select4single"] ||
+      !prices["select1return"] ||
+      !prices["select2return"] ||
+      !prices["select3return"] ||
+      !prices["select4return"] ||
+      Object.keys(chosenOptions).length != 4
+    ) {
+      alert("One of the required field not provided");
+      return;
+    }
     const newEntry = {
       tollName: tollname,
       "Car/Jeep/Van": {
