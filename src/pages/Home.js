@@ -255,17 +255,19 @@ function App() {
             <br></br>
             <br></br>
             <br></br>
-            <>
+            <div style={{ display: "flex", width: "50%" }}>
               {/* <input
                 placeholder="Search Vehicles"
                 onKeyDown={(event) => searchHandler(event)}
               /> */}
-              <p>Delete</p>
-              <input
-                placeholder="enter name and hit enter"
-                onKeyDown={(event) => deleteEntry(event)}
-              ></input>
-            </>
+              <div>Delete a toll</div>
+              <div>
+                <input
+                  placeholder="enter name and hit enter"
+                  onKeyDown={(event) => deleteEntry(event)}
+                ></input>
+              </div>
+            </div>
           </>
         )}
       </div>
