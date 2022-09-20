@@ -12,7 +12,7 @@ export default function VehiclePopUP(props) {
     props.toggle();
   }
 
-  const [tollName, setTollName] = useState();
+  const [tollName, setTollName] = useState(null);
   const [vehicleType, setVehicleType] = useState("");
   const [vehicleNumber, setVehicleNumber] = useState("");
   const [tariff, setTariff] = useState(0);
@@ -28,9 +28,11 @@ export default function VehiclePopUP(props) {
     });
     //console.log(tolls);
     setTollOptions(tolls);
+    setTollName(tolls[0]);
   }, []);
 
   function handlePrice(value, flag) {
+    console.log("called");
     if (flag == 1) {
       setTollName(value);
     } else {
@@ -62,6 +64,7 @@ export default function VehiclePopUP(props) {
       vehicleNumber: vehicleNumber,
       tariff: tariff,
     };
+
     const push = [newEntry];
     console.log("newEntry", push);
 
@@ -98,9 +101,9 @@ export default function VehiclePopUP(props) {
             }}
           >
             <label>Select toll name</label>
-
+            {console.log("test", tollName)}
             <select
-              value={tollName || "select"}
+              value={tollName}
               onChange={(e) => handlePrice(e.target.value, 1)}
             >
               {tollOptions.map((value, oIndex) => (
