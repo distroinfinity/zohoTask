@@ -76,56 +76,64 @@ export default function MultipleSelect(props) {
     <div>
       <p align="center">Add new toll</p>
       <br></br>
-      <label>Toll Name</label>
-      <input
-        type="text"
-        onChange={(e) => setTollname(e.target.value)}
-        placeholder="Enter toll name"
-        value={tollname}
-      />
-      <br></br>
-      <br></br>
-      {selectNames.map((name, index) => {
-        return (
-          <>
-            <div>
-              <select
-                name={name}
-                key={index}
-                onChange={handleChange}
-                placeholder="Select vehicle type"
-                value={chosenOptions[name] || ""}
-                required={index === 0}
-              >
-                <option value="" />
-                {options
-                  .filter(({ value }) => !isChosenByOther(value, name))
-                  .map(({ label, value }, oIndex) => (
-                    <option value={value} key={oIndex}>
-                      {label}
-                    </option>
-                  ))}
-              </select>
-              <input
-                type="text"
-                name={name + "single"}
-                onChange={(e) => handlePrice(e)}
-                placeholder="Single Journey"
-                value={prices[name + "single"] || ""}
-              />
-              <input
-                type="text"
-                name={name + "return"}
-                onChange={(e) => handlePrice(e)}
-                placeholder="Return Journey"
-                value={prices[name + "return"] || ""}
-              />
-            </div>
-            <br></br>
-            <br></br>
-          </>
-        );
-      })}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          height: "280px",
+          justifyContent: "space-around",
+        }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <label>Toll Name</label>
+          <input
+            type="text"
+            onChange={(e) => setTollname(e.target.value)}
+            placeholder="Enter toll name"
+            value={tollname}
+          />
+        </div>
+
+        {selectNames.map((name, index) => {
+          return (
+            <>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <select
+                  name={name}
+                  key={index}
+                  onChange={handleChange}
+                  placeholder="Select vehicle type"
+                  value={chosenOptions[name] || ""}
+                  required={index === 0}
+                >
+                  <option value="" />
+                  {options
+                    .filter(({ value }) => !isChosenByOther(value, name))
+                    .map(({ label, value }, oIndex) => (
+                      <option value={value} key={oIndex}>
+                        {label}
+                      </option>
+                    ))}
+                </select>
+                <input
+                  type="text"
+                  name={name + "single"}
+                  onChange={(e) => handlePrice(e)}
+                  placeholder="Single Journey"
+                  value={prices[name + "single"] || ""}
+                />
+                <input
+                  type="text"
+                  name={name + "return"}
+                  onChange={(e) => handlePrice(e)}
+                  placeholder="Return Journey"
+                  value={prices[name + "return"] || ""}
+                />
+              </div>
+            </>
+          );
+        })}
+      </div>
       <p align="center">
         <button onClick={submitButton}>Add details</button>
       </p>

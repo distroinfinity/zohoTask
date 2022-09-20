@@ -47,9 +47,19 @@ function App() {
       </header>
       <hr></hr>
       <br></br>
-      <br></br>
-      <div>
-        <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            width: "40%",
+            justifyContent: "space-evenly",
+          }}
+        >
           <b>Toll entries/Vehicle entries </b>
 
           <button onClick={filterHandler}>
@@ -59,28 +69,32 @@ function App() {
             placeholder="Search Vehicles"
             onKeyDown={(event) => searchHandler(event)}
           />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            width: "40%",
+            justifyContent: "space-evenly",
+          }}
+        >
+          <div>
+            <div onClick={toggleVehiclePop}>
+              <button>Add vehicle entry</button>
+            </div>
+            {seenVehiclePopUp ? (
+              <VehiclePopUP toggle={toggleVehiclePop} />
+            ) : null}
+          </div>
 
           <div>
-            <div>
-              <div onClick={toggleVehiclePop}>
-                <button>Add vehicle entry</button>
-              </div>
-              {seenVehiclePopUp ? (
-                <VehiclePopUP toggle={toggleVehiclePop} />
-              ) : null}
+            <div onClick={toggleTollPop}>
+              <button>Add new toll</button>
             </div>
-
-            <div>
-              <div onClick={toggleTollPop}>
-                <button>Add new toll</button>
-              </div>
-              {seenTollPopUp ? <TollPopUp toggle={toggleTollPop} /> : null}
-            </div>
-
-            <button onClick={viewAllTolls}>View all tolls</button>
+            {seenTollPopUp ? <TollPopUp toggle={toggleTollPop} /> : null}
           </div>
+
+          <button onClick={viewAllTolls}>View all tolls</button>
         </div>
-        <br></br>
       </div>
       <hr></hr>
       <div>

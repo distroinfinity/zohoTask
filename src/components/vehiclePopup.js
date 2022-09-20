@@ -78,69 +78,76 @@ export default function VehiclePopUP(props) {
         <span className="close" onClick={handleClick}>
           &times;{" "}
         </span>
-        <div>
-          <p align="center">Add new entry</p>
-          <br />
-          <label>Select toll name*</label>
-          <br />
-          <select
-            value={tollName || "select"}
-            onChange={(e) => handlePrice(e.target.value, 1)}
-          >
-            {tollOptions.map((value, oIndex) => (
-              <option value={value} key={oIndex}>
-                {value}
-              </option>
-            ))}
-          </select>
-
-          <br />
-          <br />
-          <label>Select vehicle type*</label>
-          <br />
-          <select
-            value={vehicleType}
-            onChange={(e) => {
-              handlePrice(e.target.value, 2);
+        <p align="center">Add new entry</p>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            height: "80%",
+            justifyContent: "space-evenly",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
             }}
           >
-            {vehicleTypeOptions.map((value, oIndex) => (
-              <option value={value} key={oIndex}>
-                {value}
-              </option>
-            ))}
-          </select>
+            <label>Select toll name*</label>
 
-          <br />
-          <br />
+            <select
+              value={tollName || "select"}
+              onChange={(e) => handlePrice(e.target.value, 1)}
+            >
+              {tollOptions.map((value, oIndex) => (
+                <option value={value} key={oIndex}>
+                  {value}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <label>Select vehicle type*</label>
 
-          <label>Vehicle Number*</label>
-          <br />
-          <input
-            type="text"
-            onChange={(e) => setVehicleNumber(e.target.value)}
-            placeholder="Enter your login id"
-            value={vehicleNumber}
-          />
-          <br />
-          <br />
+            <select
+              value={vehicleType}
+              onChange={(e) => {
+                handlePrice(e.target.value, 2);
+              }}
+            >
+              {vehicleTypeOptions.map((value, oIndex) => (
+                <option value={value} key={oIndex}>
+                  {value}
+                </option>
+              ))}
+            </select>
+          </div>
 
-          <label>Tariff*</label>
-          <br />
-          <input
-            type="text"
-            name="gmail"
-            onChange={(e) => setTariff(e.target.value)}
-            placeholder="Tariff amount"
-            value={tariff}
-          />
-          <br />
-          <br />
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <label>Vehicle Number*</label>
 
-          <p align="center">
-            <button onClick={submitButton}>Add Entry</button>
-          </p>
+            <input
+              type="text"
+              onChange={(e) => setVehicleNumber(e.target.value)}
+              placeholder="Enter your login id"
+              value={vehicleNumber}
+            />
+          </div>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <label>Tariff*</label>
+
+            <input
+              type="text"
+              name="gmail"
+              onChange={(e) => setTariff(e.target.value)}
+              placeholder="Tariff amount"
+              value={tariff}
+            />
+          </div>
         </div>
+        <p align="center">
+          <button onClick={submitButton}>Add Entry</button>
+        </p>
       </div>
     </div>
   );
