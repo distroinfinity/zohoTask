@@ -51,10 +51,8 @@ function App() {
   }
   function filterHandler(e) {
     setTollFilter(e);
-    let temp = data;
-    if (e == "All") {
-      temp = JSON.parse(localStorage.getItem("vehiclesData"));
-    } else {
+    let temp = JSON.parse(localStorage.getItem("vehiclesData"));
+    if (e != "All") {
       temp = temp.filter((item) => item.tollName == e);
     }
     setData(temp);
@@ -66,19 +64,18 @@ function App() {
     }
     console.log(event.target.value);
     if (tollPage == false) {
-      let temp = data;
+      let temp = JSON.parse(localStorage.getItem("vehiclesData"));
       if (!event.target.value) {
-        temp = JSON.parse(localStorage.getItem("vehiclesData"));
         setData(temp);
         return;
       }
       temp = temp.filter((item) => item.vehicleNumber == event.target.value);
+      console.log(temp, event.target.value);
       setData(temp);
     } else {
       console.log(tollInfo);
-      let temp = tollInfo;
+      let temp = JSON.parse(localStorage.getItem("tollsData"));
       if (!event.target.value) {
-        temp = JSON.parse(localStorage.getItem("tollsData"));
         setTollInfo(temp);
         return;
       }
