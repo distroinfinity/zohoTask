@@ -28,9 +28,9 @@ function App() {
   const [seenTollPopUp, setTollPopUp] = useState(false);
 
   useEffect(() => {
-    const allEntries = JSON.parse(localStorage.getItem("vehiclesInfo"));
-    setData(allEntries);
-  }, []);
+    const allEntries = JSON.parse(localStorage.getItem("vehiclesDetails"));
+    setData(allEntries != null ? allEntries : []);
+  }, [seenVehiclePopUp, seenTollPopUp]);
 
   function toggleVehiclePop() {
     setVehiclePopUp(!seenVehiclePopUp);
