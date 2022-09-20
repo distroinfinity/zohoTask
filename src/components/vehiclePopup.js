@@ -32,7 +32,7 @@ export default function VehiclePopUP(props) {
   }, []);
 
   function handlePrice(value, flag) {
-    console.log("called");
+    // console.log("called");
     if (flag == 1) {
       setTollName(value);
     } else {
@@ -42,10 +42,10 @@ export default function VehiclePopUP(props) {
   useEffect(() => {
     if (tollName && vehicleType) {
       let tarriffPrice;
-      console.log(tollName);
+      // console.log(tollName);
       tollPriceInfo.forEach(function (item) {
         if (item.tollName === tollName) {
-          console.log(vehicleType, item[vehicleType]);
+          // console.log(vehicleType, item[vehicleType]);
           tarriffPrice = item[vehicleType].single;
         }
       });
@@ -66,10 +66,10 @@ export default function VehiclePopUP(props) {
     };
 
     const push = [newEntry];
-    console.log("newEntry", push);
+    // console.log("newEntry", push);
 
     let allEntries = JSON.parse(localStorage.getItem("vehiclesDetails"));
-    console.log("got", allEntries);
+    // console.log("got", allEntries);
     if (!allEntries) {
       localStorage.setItem("vehiclesDetails", JSON.stringify(push));
     } else {
@@ -101,7 +101,6 @@ export default function VehiclePopUP(props) {
             }}
           >
             <label>Select toll name</label>
-            {console.log("test", tollName)}
             <select
               value={tollName}
               onChange={(e) => handlePrice(e.target.value, 1)}
