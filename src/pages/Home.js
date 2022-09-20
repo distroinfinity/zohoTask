@@ -42,13 +42,22 @@ function App() {
   const [seenTollPopUp, setTollPopUp] = useState(false);
   const [tollPage, setTollPage] = useState(false);
   const [tollInfo, setTollInfo] = useState([]);
+  const [tollOptions, setTollOptions] = useState([]);
+  const [tollFilter, setTollFilter] = useState("All");
 
   function viewAllTolls() {
     console.log("view all tolls");
     setTollPage(!tollPage);
   }
-  function filterHandler() {
-    console.log("filter working");
+  function filterHandler(e) {
+    setTollFilter(e);
+    let temp = data;
+    if (e == "All") {
+      temp = JSON.parse(localStorage.getItem("vehiclesData"));
+    } else {
+      temp = temp.filter((item) => item.tollName == e);
+    }
+    setData(temp);
   }
 
   function searchHandler(event) {
@@ -56,7 +65,28 @@ function App() {
       return;
     }
     console.log(event.target.value);
+    if (tollPage == false) {
+      let temp = data;
+      if (!event.target.value) {
+        temp = JSON.parse(localStorage.getItem("vehiclesData"));
+        setData(temp);
+        return;
+      }
+      temp = temp.filter((item) => item.vehicleNumber == event.target.value);
+      setData(temp);
+    } else {
+      console.log(tollInfo);
+      let temp = tollInfo;
+      if (!event.target.value) {
+        temp = JSON.parse(localStorage.getItem("tollsData"));
+        setTollInfo(temp);
+        return;
+      }
+      temp = temp.filter((item) => item.tollName == event.target.value);
+      setTollInfo(temp);
+    }
   }
+
   function deleteEntry(event) {
     if (event.key != "Enter" || event.target.value == "") {
       return;
@@ -70,7 +100,13 @@ function App() {
   useEffect(() => {
     const allEntries = JSON.parse(localStorage.getItem("vehiclesData"));
     let tolls = JSON.parse(localStorage.getItem("tollsData"));
-    //console.log(tolls);
+
+    let option = [];
+    tolls.forEach(function (item) {
+      option.push(item.tollName);
+    });
+    //console.log(tolls, option);
+    setTollOptions(option);
     setTollInfo(tolls != null ? tolls : []);
     setData(allEntries != null ? allEntries : []);
   }, [seenVehiclePopUp, seenTollPopUp]);
@@ -103,13 +139,33 @@ function App() {
             justifyContent: "space-evenly",
           }}
         >
-          <b>Toll entries/Vehicle entries </b>
+          {tollPage == false ? (
+            <b>Toll entries/Vehicle entries </b>
+          ) : (
+            <b>Tollgate List</b>
+          )}
 
-          <button onClick={filterHandler}>
-            <img src={filterIcon} style={{ width: "14px" }} />
-          </button>
+          {!tollPage && (
+            <button>
+              <img src={filterIcon} style={{ width: "14px" }} />
+              <select
+                value={tollFilter}
+                onChange={(e) => filterHandler(e.target.value)}
+              >
+                <option value={"All"}>All</option>
+                {tollOptions.map((value, oIndex) => (
+                  <option value={value} key={oIndex}>
+                    {value}
+                  </option>
+                ))}
+              </select>
+            </button>
+          )}
+
           <input
-            placeholder="Search Vehicles"
+            placeholder={
+              tollPage == false ? "Search Vehicles" : "Search a toll"
+            }
             onKeyDown={(event) => searchHandler(event)}
           />
         </div>
@@ -152,19 +208,21 @@ function App() {
               <th>TOLL NAME</th>
               <th>TARIFF</th>
             </tr>
-            {data.map((val, key) => {
-              //console.log(val.timestamp, typeof val.timestamp);
-              const formatted = formatTime(val.timestamp);
-              return (
-                <tr key={key}>
-                  <td>{val.vehicleType}</td>
-                  <td>{val.vehicleNumber}</td>
-                  <td>{formatted}</td>
-                  <td>{val.tollName}</td>
-                  <td>{val.tariff}</td>
-                </tr>
-              );
-            })}
+            {data.length == 0
+              ? "No vehicle entries found"
+              : data.map((val, key) => {
+                  //console.log(val.timestamp, typeof val.timestamp);
+                  const formatted = formatTime(val.timestamp);
+                  return (
+                    <tr key={key}>
+                      <td>{val.vehicleType}</td>
+                      <td>{val.vehicleNumber}</td>
+                      <td>{formatted}</td>
+                      <td>{val.tollName}</td>
+                      <td>{val.tariff}</td>
+                    </tr>
+                  );
+                })}
           </table>
         ) : (
           <>
@@ -175,25 +233,27 @@ function App() {
                   return <th>{val}</th>;
                 })}
               </tr>
-              {tollInfo.map((val, key) => {
-                //console.log(val.timestamp, typeof val.timestamp);
-                // const formatted = formatTime(val.timestamp);
-                return (
-                  <tr key={key}>
-                    <td>
-                      <>{val.tollName}</>
-                    </td>
-                    {vehicleTypeOptions.map((item, key) => {
-                      return (
-                        <td>{val[item].single + "/" + val[item].return}</td>
-                      );
-                    })}
-                    <td>
-                      {/* <button onClick={deleteEntry(val.tollName)}>Delete</button> */}
-                    </td>
-                  </tr>
-                );
-              })}
+              {tollInfo.length == 0
+                ? "No toll found"
+                : tollInfo.map((val, key) => {
+                    //console.log(val.timestamp, typeof val.timestamp);
+                    // const formatted = formatTime(val.timestamp);
+                    return (
+                      <tr key={key}>
+                        <td>
+                          <>{val.tollName}</>
+                        </td>
+                        {vehicleTypeOptions.map((item, key) => {
+                          return (
+                            <td>{val[item].single + "/" + val[item].return}</td>
+                          );
+                        })}
+                        <td>
+                          {/* <button onClick={deleteEntry(val.tollName)}>Delete</button> */}
+                        </td>
+                      </tr>
+                    );
+                  })}
             </table>
             <br></br>
             <br></br>
