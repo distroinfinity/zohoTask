@@ -41,7 +41,7 @@ export default function MultipleSelect(props) {
   function handlePrice(ev) {
     setPrices({ ...prices, [ev.target.name]: ev.target.value });
   }
-  console.log("options", Object.keys(chosenOptions).length);
+  //console.log("options", Object.keys(chosenOptions).length);
   const submitButton = () => {
     if (
       !tollname ||
@@ -75,15 +75,15 @@ export default function MultipleSelect(props) {
       },
     };
     const push = [newEntry];
-    console.log("newEntry", push);
+    //console.log("newEntry", push);
 
-    let allEntries = JSON.parse(localStorage.getItem("tolls"));
-    console.log("got", allEntries);
+    let allEntries = JSON.parse(localStorage.getItem("tollsData"));
+    //console.log("got", allEntries);
     if (!allEntries) {
-      localStorage.setItem("tolls", JSON.stringify(push));
+      localStorage.setItem("tollsData", JSON.stringify(push));
     } else {
       allEntries.push(newEntry);
-      localStorage.setItem("tolls", JSON.stringify(allEntries));
+      localStorage.setItem("tollsData", JSON.stringify(allEntries));
     }
     props.handleClick();
   };

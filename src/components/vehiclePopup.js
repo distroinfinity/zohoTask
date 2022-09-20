@@ -18,17 +18,28 @@ export default function VehiclePopUP(props) {
   const [tariff, setTariff] = useState(0);
   const [tollOptions, setTollOptions] = useState([]);
   const [tollPriceInfo, setTollInfo] = useState({});
+  const [data, setData] = useState({});
 
   useEffect(() => {
-    let tollsInfo = JSON.parse(localStorage.getItem("tolls"));
-    setTollInfo(tollsInfo);
+    let tollsInfo = JSON.parse(localStorage.getItem("tollsData"));
+    const allEntries = JSON.parse(localStorage.getItem("vehiclesData"));
+    setData(allEntries != null ? allEntries : []);
+    //console.log(tollsInfo, "test");
+    setTollInfo(tollsInfo != null ? tollsInfo : []);
     let tolls = [];
-    tollsInfo.forEach(function (item) {
-      tolls.push(item.tollName);
-    });
+    if (tollsInfo) {
+      tollsInfo.forEach(function (item) {
+        tolls.push(item.tollName);
+      });
+      setTollName(tolls[0]);
+    } else {
+      alert("No toll entry found, first add toll then add vehicle");
+      handleClick();
+      return;
+    }
     //console.log(tolls);
     setTollOptions(tolls);
-    setTollName(tolls[0]);
+    setVehicleType(vehicleTypeOptions[0]);
   }, []);
 
   function handlePrice(value, flag) {
@@ -40,41 +51,56 @@ export default function VehiclePopUP(props) {
     }
   }
   useEffect(() => {
+    //console.log(vehicleType, tollName, vehicleNumber);
     if (tollName && vehicleType) {
-      let tarriffPrice;
+      let tarriffPrice,
+        tariffPriceReturn = false;
       // console.log(tollName);
+      data.forEach(function (item) {
+        if (item.tollName == tollName && item.vehicleNumber == vehicleNumber) {
+          if ((Date.now() - item.timestamp) / 60000 < 60) {
+            tariffPriceReturn = true;
+          }
+        }
+      });
       tollPriceInfo.forEach(function (item) {
         if (item.tollName === tollName) {
           // console.log(vehicleType, item[vehicleType]);
-          tarriffPrice = item[vehicleType].single;
+          if (tariffPriceReturn) {
+            tarriffPrice = item[vehicleType].return;
+          } else {
+            tarriffPrice = item[vehicleType].single;
+          }
         }
       });
       setTariff(tarriffPrice);
     }
-  }, [vehicleType, tollName]);
+  }, [vehicleType, tollName, vehicleNumber]);
 
   const submitButton = () => {
     if (!tollName || !vehicleType || !vehicleNumber | !tariff) {
       alert("One of the required field not provided");
       return;
     }
+    //console.log(Date.now());
     const newEntry = {
       tollName: tollName,
       vehicleType: vehicleType,
       vehicleNumber: vehicleNumber,
       tariff: tariff,
+      timestamp: Date.now(),
     };
 
     const push = [newEntry];
     // console.log("newEntry", push);
 
-    let allEntries = JSON.parse(localStorage.getItem("vehiclesDetails"));
+    let allEntries = JSON.parse(localStorage.getItem("vehiclesData"));
     // console.log("got", allEntries);
     if (!allEntries) {
-      localStorage.setItem("vehiclesDetails", JSON.stringify(push));
+      localStorage.setItem("vehiclesData", JSON.stringify(push));
     } else {
       allEntries.push(newEntry);
-      localStorage.setItem("vehiclesDetails", JSON.stringify(allEntries));
+      localStorage.setItem("vehiclesData", JSON.stringify(allEntries));
     }
     handleClick();
   };
