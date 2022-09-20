@@ -255,7 +255,13 @@ function App() {
             <br></br>
             <br></br>
             <br></br>
-            <div style={{ display: "flex", width: "50%" }}>
+            <div
+              style={{
+                display: "flex",
+                width: "50%",
+                justifyContent: "space-evenly",
+              }}
+            >
               {/* <input
                 placeholder="Search Vehicles"
                 onKeyDown={(event) => searchHandler(event)}
