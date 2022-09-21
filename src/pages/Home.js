@@ -51,7 +51,7 @@ function App() {
   }
   function filterHandler(e) {
     setTollFilter(e);
-    let temp = JSON.parse(localStorage.getItem("vehiclesData"));
+    let temp = JSON.parse(localStorage.getItem("vehiclesDat"));
     if (e != "All") {
       temp = temp.filter((item) => item.tollName == e);
     }
@@ -64,7 +64,7 @@ function App() {
     }
     console.log(event.target.value);
     if (tollPage == false) {
-      let temp = JSON.parse(localStorage.getItem("vehiclesData"));
+      let temp = JSON.parse(localStorage.getItem("vehiclesDat"));
       if (!event.target.value) {
         setData(temp);
         return;
@@ -74,7 +74,7 @@ function App() {
       setData(temp);
     } else {
       console.log(tollInfo);
-      let temp = JSON.parse(localStorage.getItem("tollsData"));
+      let temp = JSON.parse(localStorage.getItem("tollsDat"));
       if (!event.target.value) {
         setTollInfo(temp);
         return;
@@ -91,17 +91,20 @@ function App() {
     let temp = tollInfo;
     temp = temp.filter((item) => !(item.tollName == event.target.value));
     console.log(event.target.value, temp);
-    localStorage.setItem("tollsData", JSON.stringify(temp));
+    localStorage.setItem("tollsDat", JSON.stringify(temp));
     setTollInfo(temp);
   }
   useEffect(() => {
-    const allEntries = JSON.parse(localStorage.getItem("vehiclesData"));
-    let tolls = JSON.parse(localStorage.getItem("tollsData"));
+    const allEntries = JSON.parse(localStorage.getItem("vehiclesDat"));
+    let tolls = JSON.parse(localStorage.getItem("tollsDat"));
 
     let option = [];
-    tolls.forEach(function (item) {
-      option.push(item.tollName);
-    });
+    if (tolls != null) {
+      tolls.forEach(function (item) {
+        option.push(item.tollName);
+      });
+    }
+
     //console.log(tolls, option);
     setTollOptions(option);
     setTollInfo(tolls != null ? tolls : []);
@@ -109,6 +112,11 @@ function App() {
   }, [seenVehiclePopUp, seenTollPopUp]);
 
   function toggleVehiclePop() {
+    if (seenVehiclePopUp == false && tollOptions.length == 0) {
+      //console.log(tollOptions.length, "option avail", seenVehiclePopUp);
+      alert("No toll entry found, first add toll then add vehicle");
+      return;
+    }
     setVehiclePopUp(!seenVehiclePopUp);
   }
 
@@ -143,7 +151,7 @@ function App() {
           )}
 
           {!tollPage && (
-            <button>
+            <button style={{ color: "white", background: "white" }}>
               <img src={filterIcon} style={{ width: "14px" }} />
               <select
                 value={tollFilter}
@@ -175,7 +183,9 @@ function App() {
         >
           <div>
             <div onClick={toggleVehiclePop}>
-              <button>Add vehicle entry</button>
+              <button style={{ color: "white", background: "#2196f3" }}>
+                Add vehicle entry
+              </button>
             </div>
             {seenVehiclePopUp ? (
               <VehiclePopUP toggle={toggleVehiclePop} />
@@ -184,12 +194,17 @@ function App() {
 
           <div>
             <div onClick={toggleTollPop}>
-              <button>Add new toll</button>
+              <button style={{ color: "white", background: "#2196f3" }}>
+                Add new toll
+              </button>
             </div>
             {seenTollPopUp ? <TollPopUp toggle={toggleTollPop} /> : null}
           </div>
 
-          <button onClick={viewAllTolls}>
+          <button
+            style={{ color: "white", background: "#2196f3" }}
+            onClick={viewAllTolls}
+          >
             {tollPage == false ? "View all tolls" : "back to vehicle logs"}
           </button>
         </div>
@@ -205,19 +220,23 @@ function App() {
               <th>TOLL NAME</th>
               <th>TARIFF</th>
             </tr>
+
             {data.length == 0
               ? "No vehicle entries found"
               : data.map((val, key) => {
                   //console.log(val.timestamp, typeof val.timestamp);
                   const formatted = formatTime(val.timestamp);
                   return (
-                    <tr key={key}>
-                      <td>{val.vehicleType}</td>
-                      <td>{val.vehicleNumber}</td>
-                      <td>{formatted}</td>
-                      <td>{val.tollName}</td>
-                      <td>{val.tariff}</td>
-                    </tr>
+                    <>
+                      <tr key={key}>
+                        <td>{val.vehicleType}</td>
+                        <td>{val.vehicleNumber}</td>
+                        <td>{formatted}</td>
+                        <td>{val.tollName}</td>
+                        <td>{val.tariff}</td>
+                      </tr>
+                      <br />
+                    </>
                   );
                 })}
           </table>

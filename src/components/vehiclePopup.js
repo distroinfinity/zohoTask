@@ -21,8 +21,8 @@ export default function VehiclePopUP(props) {
   const [data, setData] = useState({});
 
   useEffect(() => {
-    let tollsInfo = JSON.parse(localStorage.getItem("tollsData"));
-    const allEntries = JSON.parse(localStorage.getItem("vehiclesData"));
+    let tollsInfo = JSON.parse(localStorage.getItem("tollsDat"));
+    const allEntries = JSON.parse(localStorage.getItem("vehiclesDat"));
     setData(allEntries != null ? allEntries : []);
     //console.log(tollsInfo, "test");
     setTollInfo(tollsInfo != null ? tollsInfo : []);
@@ -33,9 +33,9 @@ export default function VehiclePopUP(props) {
       });
       setTollName(tolls[0]);
     } else {
-      alert("No toll entry found, first add toll then add vehicle");
-      handleClick();
-      return;
+      // alert("No toll entry found, first add toll then add vehicle");
+      // handleClick();
+      // return;
     }
     //console.log(tolls);
     setTollOptions(tolls);
@@ -94,13 +94,13 @@ export default function VehiclePopUP(props) {
     const push = [newEntry];
     // console.log("newEntry", push);
 
-    let allEntries = JSON.parse(localStorage.getItem("vehiclesData"));
+    let allEntries = JSON.parse(localStorage.getItem("vehiclesDat"));
     // console.log("got", allEntries);
     if (!allEntries) {
-      localStorage.setItem("vehiclesData", JSON.stringify(push));
+      localStorage.setItem("vehiclesDat", JSON.stringify(push));
     } else {
       allEntries.push(newEntry);
-      localStorage.setItem("vehiclesData", JSON.stringify(allEntries));
+      localStorage.setItem("vehiclesDat", JSON.stringify(allEntries));
     }
     handleClick();
   };

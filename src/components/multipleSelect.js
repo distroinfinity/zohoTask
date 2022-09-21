@@ -55,7 +55,7 @@ export default function MultipleSelect(props) {
       !prices["select4return"] ||
       Object.keys(chosenOptions).length != 4
     ) {
-      alert("One of the required field not provided");
+      alert("One or more the required field not provided");
       return;
     }
     const newEntry = {
@@ -77,13 +77,13 @@ export default function MultipleSelect(props) {
     const push = [newEntry];
     //console.log("newEntry", push);
 
-    let allEntries = JSON.parse(localStorage.getItem("tollsData"));
+    let allEntries = JSON.parse(localStorage.getItem("tollsDat"));
     //console.log("got", allEntries);
     if (!allEntries) {
-      localStorage.setItem("tollsData", JSON.stringify(push));
+      localStorage.setItem("tollsDat", JSON.stringify(push));
     } else {
       allEntries.push(newEntry);
-      localStorage.setItem("tollsData", JSON.stringify(allEntries));
+      localStorage.setItem("tollsDat", JSON.stringify(allEntries));
     }
     props.handleClick();
   };
